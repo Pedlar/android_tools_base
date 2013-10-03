@@ -16,6 +16,9 @@
 
 package com.android.ide.common.internal;
 
+import static com.android.SdkConstants.DOT_PNG;
+import static com.android.SdkConstants.DOT_9PNG;
+
 import com.android.annotations.NonNull;
 import com.android.annotations.Nullable;
 
@@ -30,10 +33,38 @@ public class AaptRunner {
 
     private final String mAaptLocation;
     private final CommandLineRunner mCommandLineRunner;
+    private final boolean mNoCrunchOption;
 
     public AaptRunner(@NonNull String aaptLocation, @NonNull CommandLineRunner commandLineRunner) {
         mAaptLocation = aaptLocation;
         mCommandLineRunner = commandLineRunner;
+        mNoCrunchOption = false;
+    }
+
+    public AaptRunner(@NonNull String aaptLocation, @NonNull CommandLineRunner commandLineRunner, boolean noCrunchOption) {
+        mAaptLocation = aapLocation;
+        mCommandLineRunner = commandLineRunner;
+        mNoCrunchOption = noCrunchOption;
+    }
+
+    /**
+     * Gets whether a file should be crunched or not
+     * @param filename the file to check if it should be crunched
+     */
+    public boolean shouldCrunchFile(String filename) {
+        if(filename.endsWith(DOT_9PNG) {
+            return true;
+        } else if(filename.endsWith(DOT_PNG) {
+            return !mNoCrunchOption;
+        }
+    }
+
+    /*
+     * Set whether PNG's should be crunched or not
+     * @param noCrunch  the option to set if PNGs should be crunched
+     */
+    public void setNoCrunch(boolean noCrunch) {
+        this.mNoCrunchOption = noCrunch;
     }
 
     /**

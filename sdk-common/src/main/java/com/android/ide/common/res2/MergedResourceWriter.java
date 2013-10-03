@@ -16,7 +16,6 @@
 
 package com.android.ide.common.res2;
 
-import static com.android.SdkConstants.DOT_PNG;
 import static com.android.SdkConstants.DOT_XML;
 import static com.android.SdkConstants.RES_QUALIFIER_SEP;
 import static com.android.SdkConstants.TAG_RESOURCES;
@@ -83,6 +82,12 @@ public class MergedResourceWriter extends MergeWriter<ResourceItem> {
         mAaptRunner = aaptRunner;
     }
 
+    public MergedResourceWriter(@NonNull File rootFolder, @Nullable AaptRunner aaptRunner, boolean noCrunch) {
+        super(rootFolder);
+        mAaptRunner = aaptRunner;
+        mAapRunner.setNoCrunch(noCrunch);
+    }
+
     @Override
     public void start() throws ConsumerException {
         super.start();
@@ -135,7 +140,7 @@ public class MergedResourceWriter extends MergeWriter<ResourceItem> {
 
                         File outFile = new File(typeFolder, filename);
 
-                        if (mAaptRunner != null && filename.endsWith(DOT_PNG)) {
+                        if (mAaptRunner != null && mAaptRunner.shouldCrunchFile(filename)) {
                             // run aapt in single crunch mode on the original file to write the
                             // destination file.
                             mAaptRunner.crunchPng(file, outFile);
